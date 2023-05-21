@@ -4,10 +4,13 @@ from django.conf import settings
 from MainApp import views
 
 urlpatterns = [
-    path('', views.index_page),
+    path('', views.index_page, name='home'),
     path('snippets/add', views.add_snippet, name='snippet-add'),
     path('snippets/list', views.snippets_list, name='snippets-list'),
     path('snippets/<int:snippet_id>', views.snippet_detail, name='snippet-detail'),
-    path('snippets/create', views.snippet_create, name='snippet-create'),
     path('snippets/<int:snippet_id>/delete', views.snippet_delete, name='snippet-del'),
+    # path('snippets/<int:snippet_id>/update', views.snippet_update, name='snippet-update'),
+    path('login/', views.login_page, name='login'),
+    path('logout/', views.logout_page, name='logout'),
+    path('registration/', views.registration, name='registration'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -26,6 +26,10 @@
                 padding-right: 15px;
                 padding-left: 15px;
             }
+
+            .more-padding-on-left {
+                padding-left: 15px;
+            }
         </style>
     {% endblock %}
 </head>
@@ -60,6 +64,7 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Название</th>
+                        <th scope="col">Автор</th>
                         <th scope="col">Дата создания</th>
                     </tr>
                     </thead>
@@ -67,11 +72,13 @@
                     {% for snippet in snippets %}
                         <tr>
                             <td scope="row">{{ snippet.id }}</td>
-                            <td><a href="{% url 'snippet-detail' snippet.id %}">{{ snippet.name }}</a>
+                            <td>
+                                <a href="{% url 'snippet-detail' snippet.id %}">{{ snippet.name }}</a>
                                 <a href="{% url 'snippet-del' snippet.id %}">
                                     <i class="fa-sharp fa-solid fa-trash"></i>
                                 </a>
                             </td>
+                            <td>{{ snippet.user.username }}</td>
                             <td>{{ snippet.creation_date }}</td>
                         </tr>
                     {% endfor %}
