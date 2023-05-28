@@ -45,10 +45,18 @@ def snippet_delete(requests, snippet_id):
 def snippets_list(request):
     snippets = Snippet.objects.all()
     count_snippets = snippets.count()
+    sort = request.GET.get('sort')
+    lang = request.GET.get('lang')
+    if sort:
+        snippets = snippets.order_by(sort)
+    if lang:
+        snippets = snippets.filter(lang=lang)
     context = {
         'pagename': 'Просмотр сниппетов',
         "snippets": snippets,
-        "count": count_snippets
+        "count": count_snippets,
+        "sort": sort,
+        "lang": lang
     }
     return render(request, 'pages/view_snippets.html', context)
 
