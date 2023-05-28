@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect
 from django.contrib import auth
 from MainApp.models import Snippet
 from MainApp.forms import SnippetForm, UserRegistrationForm, CommentForm
+from django.contrib.auth.models import User
+from django.db.models import Count
 
 
 def index_page(request):
@@ -51,12 +53,14 @@ def snippets_list(request):
         snippets = snippets.order_by(sort)
     if lang:
         snippets = snippets.filter(lang=lang)
+    users = User.objects.annotate(num_snippets=Count('snippets')).exclude(num_snippets=0)
     context = {
         'pagename': 'Просмотр сниппетов',
         "snippets": snippets,
         "count": count_snippets,
         "sort": sort,
-        "lang": lang
+        "lang": lang,
+        "users": users,
     }
     return render(request, 'pages/view_snippets.html', context)
 

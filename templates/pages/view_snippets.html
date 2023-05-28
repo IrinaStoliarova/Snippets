@@ -57,6 +57,7 @@
             </div>
         </div>
          <div class="row">
+             Фильтр по языку:
             <div class="col">
                 <form action="" method="get">
                     <select name="lang">
@@ -64,6 +65,21 @@
                         <option value="py" {% if lang == "py" %} selected {% endif %}>Python</option>
                         <option value="js" {% if lang == "js" %} selected {% endif %}>JavaScript</option>
                         <option value="cpp" {% if lang == "cpp" %} selected {% endif %}>C++</option>
+                    </select>
+                    <button type="submit">Применить</button>
+                    <a href="{% url 'snippets-list' %}">Сбросить</a>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+             Фильтр по user:
+            <div class="col">
+                <form action="" method="get">
+                    <select name="user">
+                        <option value="">----</option>
+                        {% for user in users %}
+                            <option value="{{user.id}}">{{user.username}}</option>
+                        {% endfor %}
                     </select>
                     <button type="submit">Применить</button>
                     <a href="{% url 'snippets-list' %}">Сбросить</a>
@@ -87,7 +103,17 @@
                                 <a href="?sort=name">Название</a>
                             {% endif %}
                         </th>
-                        <th scope="col">Язык</th>
+                        <th scope="col">
+                            {% if sort == "lang" %}
+                                <a href="?sort=-lang">Язык</a>
+                                <i class="fa-solid fa-caret-up"></i>
+                            {% elif sort == "-lang" %}
+                                <a href="?sort=lang">Язык</a>
+                                <i class="fa-solid fa-caret-down"></i>
+                            {% else %}
+                                <a href="?sort=lang">Язык</a>
+                            {% endif %}
+                        </th>
                         <th scope="col">Автор</th>
                         <th scope="col">Дата создания</th>
                         <th scope="col">Доступ</th>
@@ -105,7 +131,17 @@
                                     </a>
                                 {% endif %}
                             </td>
-                            <td>{{ snippet.lang }}</td>
+                            <td>
+                                {% if snippet.lang == "py" %}
+                                <i class="fa-brands fa-python"></i>
+                                {% elif snippet.lang == "js" %}
+                                <i class="fa-brands fa-js"></i>
+                                {% elif snippet.lang == "cpp" %}
+                                <i class="fa-solid fa-c"></i>
+                                {% else %}
+                                <i class="fa-solid fa-code"></i>
+                                {% endif %}
+                            </td>
                             <td>{{ snippet.user.username }}</td>
                             <td>{{ snippet.creation_date }}</td>
                             <td>
